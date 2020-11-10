@@ -15,17 +15,12 @@ readonly YOCTO_ROOT="${SCRIPT_POINT}/../../../.."
 
 if [[ -e ${YOCTO_ROOT}/b2qt-init-build-env ]] ; then
 	readonly BSP_TYPE="B2QT"
-	readonly YOCTO_BUILD=${YOCTO_ROOT}/build-${MACHINE}
 	readonly YOCTO_DEFAULT_IMAGE=b2qt-embedded-qt5-image
 else
 	readonly BSP_TYPE="YOCTO"
-	if [[ $MACHINE = "imx6ul-var-dart" ]]; then
-		readonly YOCTO_BUILD=${YOCTO_ROOT}/build_x11
-	else
-		readonly YOCTO_BUILD=${YOCTO_ROOT}/build_xwayland
-	fi
 	readonly YOCTO_DEFAULT_IMAGE=fsl-image-gui
 fi
+readonly YOCTO_BUILD=${YOCTO_ROOT}/build-${MACHINE}
 echo "BSP type: ${BSP_TYPE}"
 
 readonly YOCTO_SCRIPTS_PATH=${SCRIPT_POINT}/variscite_scripts
@@ -101,7 +96,7 @@ echo "================================================"
 
 help() {
 	bn=`basename $0`
-	echo " Usage: MACHINE=<imx6ul-var-dart|imx8mq-var-dart|imx8mm-var-dart|imx8qxp-var-som|imx8qm-var-som|imx8mn-var-som> $bn <options> device_node"
+	echo " Usage: MACHINE=<imx6ul-var-dart|imx7-var-som|imx8mq-var-dart|imx8mm-var-dart|imx8qxp-var-som|imx8qm-var-som|imx8mn-var-som> $bn <options> device_node"
 	echo
 	echo " options:"
 	echo " -h		display this Help message"
@@ -137,16 +132,19 @@ case $MACHINE in
 	"imx6ul-var-dart")
 		FAT_VOLNAME=BOOT-VAR6UL
 		;;
+	"imx7-var-som")
+		FAT_VOLNAME=BOOT-VARMX7
+		;;
 	*)
 		help
 		exit 1
 esac
 
-if [[ $MACHINE = "imx6ul-var-dart" ]]; then
+if [[ $MACHINE = "imx6ul-var-dart" || $MACHINE = "imx7-var-som" ]]; then
 	BOOTLOAD_RESERVE_SIZE=4
 	BOOT_ROM_SIZE=12
 	HAS_UBI_IMAGES=1
-	HAS_DESKTOP_ICONS=1
+#	HAS_DESKTOP_ICONS=1
 fi
 
 if [[ $MACHINE = "imx8qxp-var-som" || $MACHINE = "imx8qm-var-som" || $MACHINE = "imx8mn-var-som" ]]; then
@@ -403,7 +401,7 @@ function copy_scripts
 
 	cp ${YOCTO_SCRIPTS_PATH}/echos.sh 		${P2_MOUNT_DIR}/usr/bin/
 
-	if [[ $MACHINE = "imx6ul-var-dart" ]]; then
+	if [[ $MACHINE = "imx6ul-var-dart" || $MACHINE = "imx7-var-som" ]]; then
 		cp ${YOCTO_SCRIPTS_PATH}/mx6ul_mx7_install_yocto.sh	${P2_MOUNT_DIR}/usr/bin/install_yocto.sh
 	else
 		cp ${YOCTO_SCRIPTS_PATH}/mx8_install_yocto.sh	${P2_MOUNT_DIR}/usr/bin/install_yocto.sh
