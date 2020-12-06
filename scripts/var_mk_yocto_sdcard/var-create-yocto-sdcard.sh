@@ -144,7 +144,7 @@ if [[ $MACHINE = "imx6ul-var-dart" || $MACHINE = "imx7-var-som" ]]; then
 	BOOTLOAD_RESERVE_SIZE=4
 	BOOT_ROM_SIZE=12
 	HAS_UBI_IMAGES=1
-#	HAS_DESKTOP_ICONS=1
+	HAS_DESKTOP_ICONS=1
 fi
 
 if [[ $MACHINE = "imx8qxp-var-som" || $MACHINE = "imx8qm-var-som" || $MACHINE = "imx8mn-var-som" ]]; then
