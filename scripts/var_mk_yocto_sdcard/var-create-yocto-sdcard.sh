@@ -15,17 +15,12 @@ readonly YOCTO_ROOT="${SCRIPT_POINT}/../../../.."
 
 if [[ -e ${YOCTO_ROOT}/sources/meta-boot2qt ]] ; then
 	readonly BSP_TYPE="B2QT"
-	readonly YOCTO_BUILD=${YOCTO_ROOT}/build-${MACHINE}
 	readonly YOCTO_DEFAULT_IMAGE=b2qt-embedded-qt5-image
 else
 	readonly BSP_TYPE="YOCTO"
-	if [[ $MACHINE = "imx6ul-var-dart" || $MACHINE = "imx7-var-som" ]]; then
-		readonly YOCTO_BUILD=${YOCTO_ROOT}/build_x11
-	else
-		readonly YOCTO_BUILD=${YOCTO_ROOT}/build_xwayland
-	fi
 	readonly YOCTO_DEFAULT_IMAGE=fsl-image-gui
 fi
+readonly YOCTO_BUILD=${YOCTO_ROOT}/build-${MACHINE}
 echo "BSP type: ${BSP_TYPE}"
 
 readonly YOCTO_SCRIPTS_PATH=${SCRIPT_POINT}/variscite_scripts
